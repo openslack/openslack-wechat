@@ -8,6 +8,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 try:
@@ -152,13 +153,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 SITE_ID = 1
 ANONYMOUS_USER_ID = -1
 
-WECHAT_URL="http://weixin.openslack.com/wechat"
-
+WECHAT_URL = "http://weixin.openslack.com/wechat"
 
 from pymemcache.client import Client
 from wechatpy.session.memcachedstorage import MemcachedStorage
+
 servers = tuple(MEMCACHE_LOCATION.split(":"))
 memcached = Client(servers[0], int(servers[1]))
 SESSION = MemcachedStorage(memcached)
-
-
