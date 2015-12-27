@@ -1,5 +1,0 @@
-{
-    "authorizer_access_token": "1234567890", 
-    "expires_in": 7200, 
-    "authorizer_refresh_token": "123456789"
-}

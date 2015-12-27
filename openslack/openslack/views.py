@@ -13,6 +13,8 @@ from wechatpy.crypto import WeChatCrypto
 from wechatpy import parse_message, create_reply
 from wechatpy.exceptions import InvalidSignatureException
 from wechatpy.exceptions import InvalidAppIdException
+from wechatpy.utils import ObjectDict
+from wechatpy.replies import ArticlesReply
 
 def index(request):
     return render(request, 'index.html')
@@ -82,6 +84,23 @@ def wechat(request):
         msg = parse_message(msg)
         if msg.type == 'text':
             reply = create_reply(msg.content, msg)
+        elif msg.type == 'image':
+            reply = ArticlesReply(message=msg)
+            # simply use dict as article
+            reply.add_article({
+                'title': 'test',
+                'description': 'test',
+                'image': 'image url',
+                'url': 'url'
+            })
+            # or you can use ObjectDict
+            article = ObjectDict()
+            article.title = 'test'
+            article.description = 'test'
+            article.image = 'image url'
+            article.url = 'url'
+            reply.add_article(article)
+            # reply = create_reply([article], msg)
         else:
             reply = create_reply('Sorry, can not handle this for now', msg)
         msg= crypto.encrypt_message(
