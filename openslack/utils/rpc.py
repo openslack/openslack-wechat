@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import zerorpc
-from .middleware import ClientMiddleware
+from .middleware import ClientMiddleware, TracerMiddleware, ResolverMiddleware
 
 
 class ZeroRPC:
@@ -10,8 +10,12 @@ class ZeroRPC:
         if not location:
             location = self.location
         ctx = zerorpc.Context()
-        middleware = ClientMiddleware()
-        ctx.register_middleware(middleware)
+        client = ClientMiddleware()
+        ctx.register_middleware(client)
+        resolver = ResolverMiddleware()
+        ctx.register_middleware(resolver)
+        tracer = TracerMiddleware('[client]')
+        ctx.register_middleware(tracer)
         self.client = zerorpc.Client(connect_to=location, timeout=timeout, context=ctx)
 
     @staticmethod
