@@ -3,7 +3,7 @@ import zerorpc
 from .middleware import ClientMiddleware, TracerMiddleware, ResolverMiddleware
 
 
-class ZeroRPC:
+class ZeroRPClient:
     location = "tcp://127.0.0.1:4242"
 
     def __init__(self, location=None, timeout=10):
@@ -16,8 +16,8 @@ class ZeroRPC:
         ctx.register_middleware(resolver)
         tracer = TracerMiddleware('[client]')
         ctx.register_middleware(tracer)
-        self.client = zerorpc.Client(connect_to=location, timeout=timeout, context=ctx)
+        self.client = zerorpc.Client(timeout=timeout, context=ctx)
+        self.client.connect(location)
 
-    @staticmethod
-    def client(self):
-        return self.client
+    def close(self):
+        return self.client.close()

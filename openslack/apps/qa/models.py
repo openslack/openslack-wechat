@@ -1,34 +1,31 @@
 # -*- coding: utf-8 -*-
-from utils.rpc import ZeroRPC
+from utils.rpc import ZeroRPClient
 from django.conf import settings
 
-location = "tcp://127.0.0.1:4242"
-
-# client.add(1, 4, async=True)
-
 class QA:
+
     def __init__(self):
-        self.client=ZeroRPC.client
+        self.client=ZeroRPClient()
 
     def get(self, id):
-        return self.client.qa.get(id).get()
+        return self.client.qa_get(id)
 
-    def post(self):
-        self.client.qa.save("title", "content", "wechat", "submit_time", async=True)
+    def save(self):
+        self.client.qa_save("title", "content", "wechat", "submit_time", async=True)
         if self.client == "success":
             return True
         else:
             return False
 
     def list(self, page=1, num=100):
-        self.client.qa.list(page,num)
+        self.client.qa_list(page,num)
         if self.client == "success":
             return True
         else:
             return False
 
     def filter(self, params={}):
-        self.client.qa.filter(params, async=True)
+        self.client.qa_filter(params, async=True)
         if self.client == "success":
             return True
         else:
